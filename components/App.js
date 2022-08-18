@@ -87,5 +87,3 @@ function Intro({ start, set }) {
     // }
   });
 }
-
-useGLTF.preload('/models/couch.glb');
