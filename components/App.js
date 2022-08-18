@@ -1,35 +1,11 @@
 import * as THREE from 'three';
-import React, { Suspense, useEffect, useCallback, useState, useRef } from 'react';
+import React, { Suspense, useEffect, useState, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Reflector, Text, useTexture, useGLTF, OrbitControls } from '@react-three/drei';
+import { Reflector, useTexture, useGLTF, OrbitControls } from '@react-three/drei';
 import Overlay from './Overlay';
 import gsap from 'gsap';
 import Couch from './Couch';
-
-function VideoText({ clicked, text, offset, ...props }) {
-  const [video] = useState(() =>
-    Object.assign(document.createElement('video'), {
-      src: '/videos/matrix_compressed.mp4',
-      crossOrigin: 'Anonymous',
-      loop: true
-    })
-  );
-  useEffect(() => {
-    if (clicked) {
-      video.playsInline = true;
-      video.currentTime = offset || 0;
-      video.play();
-    }
-  }, [video, clicked]);
-  return (
-    <Text font="/fonts/ShareTechMono.ttf" fontSize={2} letterSpacing={-0.1} {...props}>
-      {text}
-      <meshBasicMaterial toneMapped={false} side={THREE.DoubleSide}>
-        <videoTexture attach="map" args={[video]} encoding={THREE.sRGBEncoding} />
-      </meshBasicMaterial>
-    </Text>
-  );
-}
+import VideoText from './VideoText';
 
 function Ground({ start }) {
   const [floor, normal] = useTexture([
