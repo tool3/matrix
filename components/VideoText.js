@@ -8,14 +8,14 @@ function VideoText({ video: videoOn, clicked, text, offset, ...props }) {
     Object.assign(document.createElement('video'), {
       src: '/videos/matrix_compressed.mp4',
       crossOrigin: 'Anonymous',
-      loop: true
+      loop: true,
     })
   );
 
   useEffect(() => {
     (async () => {
       if (clicked) {
-        video.playsInline = true;
+        video.setAttribute('playsinline', true);
         video.currentTime = offset || 0;
         await video.play();
       }
