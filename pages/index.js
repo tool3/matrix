@@ -1,11 +1,31 @@
-import React, { Suspense, useEffect, useState, useRef } from 'react';
-import * as THREE from 'three';
-import gsap from 'gsap';
+import { OrbitControls, Reflector, useTexture } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Reflector, useTexture, useGLTF, OrbitControls } from '@react-three/drei';
-import Overlay from '../components/Overlay';
+import gsap from 'gsap';
+import { Howl } from 'howler';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import Couch from '../components/Couch';
+import Overlay from '../components/Overlay';
+import Phone from '../components/Phone';
+import main from '../components/sounds/3.mp3';
+import secondary from '../components/sounds/mtrx_loop_secondary.mp3';
 import VideoText from '../components/VideoText';
+
+const tracks = {
+  main: new Howl({
+    src: [main],
+    format: ['mp3'],
+    preload: true,
+    loop: true,
+    volume: .2,
+  }),
+  secondary: new Howl({
+    src: [secondary],
+    format: ['mp3'],
+    preload: true,
+    loop: true,
+    volume: .2,
+  }),
+}
 
 function Ground({ start }) {
   const [floor, normal] = useTexture([
@@ -13,19 +33,11 @@ function Ground({ start }) {
     '/textures/SurfaceImperfections003_1K_Normal.jpg'
   ]);
 
-  const { camera } = useThree();
-
-  useEffect(() => {
-    if (start) {
-      gsap.to(camera.position, { z: 15, duration: 2, ease: 'power3.inOut' });
-    }
-  }, [start]);
-
   return (
     <Reflector
       blur={[400, 100]}
-      resolution={1024}
-      args={[30, 30]}
+      resolution={4048}
+      args={[50, 50]}
       mirror={0.5}
       mixBlur={6}
       mixStrength={2.0}
@@ -47,43 +59,86 @@ function Ground({ start }) {
 export default function App() {
   const [clicked, setClicked] = useState(false);
   const [ready, setReady] = useState(false);
-  const store = { clicked, setClicked, ready, setReady };
+  ;
   const overlay = useRef();
+
+  const [light, setLight] = useState(false);
+  const [couch, setCouch] = useState(false);
+  const [rotate, setRotate] = useState(false);
+  const [video, setVideo] = useState(true);
+  const [sound, setSound] = useState(false);
+
+  const store = {
+    clicked,
+    setClicked,
+    ready,
+    setReady,
+    light,
+    setLight,
+    couch,
+    setCouch,
+    rotate,
+    setRotate,
+    video,
+    setVideo,
+    sound,
+    setSound,
+  }
+
+  useEffect(() => {
+    if (sound) {
+      tracks.secondary.play();
+    } else {
+      tracks.secondary.stop();
+    }
+  }, [sound])
 
   return (
     <>
       <Canvas shadows camera={{ position: [0, 3, 100], fov: 15 }}>
         <color attach="background" args={['black']} />
-        {/* <fog attach="fog" args={['black', 15, 50]} /> */}
         <Suspense fallback={null}>
           <group position={[0, -1, 0]}>
-            <Couch rotation={[0, Math.PI + 0.4, 0]} position={[1.2, 0, 0.6]} scale={[1, 1, 1]} />
-            <VideoText {...store} position={[0, 0.65, -2]} text={'01001110'} />
-            <VideoText {...store} position={[0, 2.06, -2]} offset={2} text={'01000101'} />
-            <VideoText {...store} position={[0, 3.47, -2]} offset={1} text={'01001111'} />
+            <Couch couch={couch} rotation={[0, Math.PI + 0.4, 0]} position={[1.2, 0, 0.6]} scale={[1, 1, 1]} />
+            <Phone couch={couch} />
+            <VideoText video={video}  {...store} position={[0, 0.65, -2]} text={'01001110'} />
+            <VideoText video={video} {...store} position={[0, 2.06, -2]} offset={2} text={'01000101'} />
+            <VideoText video={video} {...store} position={[0, 3.47, -2]} offset={1} text={'01001111'} />
             <Ground start={ready && clicked} />
           </group>
-          <ambientLight intensity={0.5} />
-          <spotLight position={[0, 10, 0]} intensity={0.3} />
-          <directionalLight position={[-50, 0, -40]} intensity={0.7} />
-          <Intro start={ready && clicked} set={setReady} />
-          <OrbitControls makeDefault minDistance={0.1} maxDistance={23} maxPolarAngle={Math.PI / 2} />
+          {light && <spotLight position={[0, 10, 0]} intensity={5} angle={Math.PI / 9} penumbra={0.5} />}
+          {light && <ambientLight intensity={0.5} />}
+          <Intro rotate={rotate} start={ready && clicked} set={setReady} />
         </Suspense>
+        <OrbitControls makeDefault minDistance={5} maxDistance={30} maxPolarAngle={Math.PI / 2} />
       </Canvas>
       <Overlay {...store} ref={overlay} />
     </>
   );
 }
 
-function Intro({ start, set }) {
-  const [vec] = useState(() => new THREE.Vector3());
+function Intro({ start, set, rotate }) {
+
   useEffect(() => {
     setTimeout(() => set(true), 500);
   }, []);
-  return useFrame((state) => {
-    // if (start) {
-    // state.camera.position.lerp(vec.set(state.mouse.x * 5, 3 + state.mouse.y * 2, 14), 0.05)
-    //   state.camera.lookAt(0, 0, 0)
-    // }
-  });
+  const { camera } = useThree();
+
+  useEffect(() => {
+    if (start) {
+      gsap.from(camera.position, { z: 100 });
+      gsap.to(camera.position, { z: 50, duration: 1, ease: 'power3.inOut' });
+    }
+  }, []);
+
+  useFrame((state) => {
+    const { controls } = state;
+    if (rotate) {
+      controls.autoRotate = true;
+    } else {
+      controls.autoRotate = false;
+    }
+  })
+
+  return null;
 }

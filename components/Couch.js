@@ -4,8 +4,9 @@ import { useGLTF } from '@react-three/drei';
 export default function Model({ ...props }) {
   const group = useRef();
   const { nodes, materials } = useGLTF('/models/couch.glb');
+  const { couch } = props;
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group visible={couch} ref={group} {...props} dispose={null}>
       <mesh
         geometry={nodes.ARMCHAIR_TEXSET_A_0.geometry}
         material={materials.TEXSET_A}
@@ -13,7 +14,7 @@ export default function Model({ ...props }) {
         scale={0.01}
       />
     </group>
-  );
+  )
 }
 
 useGLTF.preload('/models/couch.glb');

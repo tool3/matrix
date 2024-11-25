@@ -1,0 +1,143 @@
+
+import React, { useRef } from 'react'
+import { useGLTF } from '@react-three/drei'
+
+export default function Phone(props) {
+    const { nodes, materials } = useGLTF('/models/phone.glb')
+    const { couch } = props;
+    return (
+        <group visible={couch} position={[0.3, 0, 0.4]} rotation={[0, -Math.PI / 1.6, 0]} scale={0.01} {...props} dispose={null}>
+            <group position={[0, 83.927, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_10.geometry}
+                    material={materials.wire_153228153}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_11.geometry}
+                    material={materials.wire_177028149}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_12.geometry}
+                    material={materials.wire_108008136}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_13.geometry}
+                    material={materials.wire_140088225}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_14.geometry}
+                    material={materials.wire_140088225}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_15.geometry}
+                    material={materials.wire_140088225}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_16.geometry}
+                    material={materials.wire_140088225}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_17.geometry}
+                    material={materials.wire_140088225}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_18.geometry}
+                    material={materials.wire_140088225}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_19.geometry}
+                    material={materials.wire_140088225}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_20.geometry}
+                    material={materials.wire_140088225}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_21.geometry}
+                    material={materials.wire_228184153}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_22.geometry}
+                    material={materials.wire_213154229}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_3.geometry}
+                    material={materials['1b__Default']}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_4.geometry}
+                    material={materials['1___Default']}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_5.geometry}
+                    material={materials['9___Default']}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_6.geometry}
+                    material={materials.wire_028149177}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_7.geometry}
+                    material={materials.wire_085028177}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_8.geometry}
+                    material={materials.wire_088088225}
+                />
+                <mesh
+                    castShadow
+                    receiveShadow
+                    geometry={nodes.Object_9.geometry}
+                    material={materials.wire_153228153}
+                />
+            </group>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Object_4001.geometry}
+                material={materials['Material.001']}
+                position={[0.477, 0, 0]}
+            />
+        </group>
+    );
+}
+
+useGLTF.preload('/models/phone.glb')
