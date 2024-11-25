@@ -62,6 +62,7 @@ export default function App() {
   ;
   const overlay = useRef();
 
+  const [track, setTrack] = useState('main');
   const [light, setLight] = useState(false);
   const [couch, setCouch] = useState(false);
   const [rotate, setRotate] = useState(false);
@@ -87,11 +88,11 @@ export default function App() {
 
   useEffect(() => {
     if (sound) {
-      tracks.secondary.play();
+      tracks[track].play();
     } else {
-      tracks.secondary.stop();
+      tracks[track].stop();
     }
-  }, [sound])
+  }, [sound, track])
 
   return (
     <>
@@ -118,7 +119,6 @@ export default function App() {
 }
 
 function Intro({ start, set, rotate }) {
-
   useEffect(() => {
     setTimeout(() => set(true), 500);
   }, []);
