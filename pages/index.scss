@@ -63,7 +63,7 @@ body {
   font-family: "Cyber";
   bottom: 0;
   padding: 0.5em;
-  color: #52E5B6;
+  color: #52e5b6;
   font-size: 3em;
 
   .author {
@@ -170,7 +170,7 @@ body {
 
 .switcher[data-ison="true"] {
   justify-content: flex-end;
-  background-color: #52E5B6;
+  background-color: #52e5b6;
 }
 
 .handle {
@@ -190,6 +190,10 @@ body {
     text-align: center;
     font-family: "Cyber";
     font-size: 10rem;
-    color: #52E5B6;
+    color: #52e5b6;
+    
+    @media screen and (max-width: 600px) {
+      font-size: 5rem;
+    }
   }
 }
