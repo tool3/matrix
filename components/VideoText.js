@@ -1,37 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { DoubleSide, sRGBEncoding } from 'three';
-import { useThree } from '@react-three/fiber';
 import { Text } from '@react-three/drei';
+import React, { useEffect } from 'react';
+import { DoubleSide, sRGBEncoding } from 'three';
 
-function VideoText({ video: videoOn, clicked, text, offset, ...props }) {
-  const [video] = useState(
-    Object.assign(document.createElement('video'), {
-      src: '/videos/matrix_compressed.mp4',
-      crossOrigin: 'Anonymous',
-      loop: true,
-    })
-  );
-
+function VideoText({ videoElement, video: videoOn, clicked, text, offset, ...props }) {
+  if (videoElement === undefined) return null;
   useEffect(() => {
-    (async () => {
-      if (clicked) {
-        video.setAttribute('playsinline', true);
-        video.currentTime = offset || 0;
-        await video.play();
-      }
+    if (clicked) {
+      videoElement.currentTime = offset || 0;
+      videoElement.play();
+    }
 
-      if (!videoOn) {
-        video.pause();
-      }
-    })()
+    if (!videoOn) {
+      videoElement.pause();
+    }
+  }, [videoElement, clicked, videoOn]);
 
-
-  }, [video, clicked, videoOn]);
   return (
     <Text font="/fonts/ShareTechMono.ttf" fontSize={2} letterSpacing={-0.1} {...props}>
       {text}
       <meshBasicMaterial toneMapped={false} side={DoubleSide}>
-        <videoTexture attach="map" args={[video]} encoding={sRGBEncoding} />
+        <videoTexture attach="map" args={[videoElement]} encoding={sRGBEncoding} />
       </meshBasicMaterial>
     </Text>
   );

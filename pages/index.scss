@@ -3,6 +3,10 @@
   src: url("/fonts/Cyber_Alert.otf"); // pattern: /directoryName/file.extension
 }
 
+:root {
+  --theme-color: #1A9865;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -63,7 +67,7 @@ body {
   font-family: "Cyber";
   bottom: 0;
   padding: 0.5em;
-  color: #52e5b6;
+  color: var(--theme-color);
   font-size: 3em;
 
   .author {
@@ -80,7 +84,7 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    gap: 2.5rem;
+    gap: 3.5rem;
   }
 
   .controls {
@@ -170,7 +174,7 @@ body {
 
 .switcher[data-ison="true"] {
   justify-content: flex-end;
-  background-color: #52e5b6;
+  background-color: var(--theme-color)
 }
 
 .handle {
@@ -190,8 +194,8 @@ body {
     text-align: center;
     font-family: "Cyber";
     font-size: 10rem;
-    color: #52e5b6;
-    
+    color: var(--theme-color);
+
     @media screen and (max-width: 600px) {
       font-size: 5rem;
     }
