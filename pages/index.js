@@ -1,4 +1,4 @@
-import { OrbitControls, Reflector, useTexture } from '@react-three/drei';
+import { MeshReflectorMaterial, OrbitControls, Reflector, useTexture } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import gsap from 'gsap';
 import { Howl } from 'howler';
@@ -9,6 +9,7 @@ import Phone from '../components/Phone';
 import main from '../components/sounds/3.mp3';
 import secondary from '../components/sounds/mtrx_loop_secondary.mp3';
 import VideoText from '../components/VideoText';
+import { BackSide, DoubleSide } from 'three';
 
 const tracks = {
   main: new Howl({
@@ -34,25 +35,30 @@ function Ground({ start }) {
   ]);
 
   return (
-    <Reflector
-      blur={[400, 100]}
-      resolution={4048}
-      args={[50, 50]}
-      mirror={0.5}
-      mixBlur={6}
-      mixStrength={2.0}
-      rotation={[-Math.PI / 2, 0, Math.PI / 2]}>
-      {(Material, props) => (
-        <Material
-          color="#a0a0a0"
-          metalness={0.9}
-          roughnessMap={floor}
-          normalMap={normal}
-          normalScale={[1, 1]}
-          {...props}
-        />
-      )}
-    </Reflector>
+    <mesh castShadow receiveShadow rotation={[-Math.PI / 2, 0, -Math.PI / 2]}>
+      <planeGeometry args={[50, 50]} />
+      <MeshReflectorMaterial
+        blur={[400, 100]}
+        resolution={720}
+        args={[50, 50]}
+        mirror={1}
+        metalness={0.9}
+        normalScale={[1, 1]}
+        mixBlur={6}
+        side={DoubleSide}
+        roughnessMap={floor}
+        mixStrength={2.0}
+        mixContrast={1} // Contrast of the reflections
+        depthScale={0} // Scale the depth factor (0 = no depth, default = 0)
+        minDepthThreshold={0.9} // Lower edge for the depthTexture interpolation (default = 0)
+        maxDepthThreshold={1} // Upper edge for the depthTexture interpolation (default = 0)
+        depthToBlurRatioBias={0.25} // Adds a bias factor to the depthTexture before calculating the blur amount [blurFactor = blurTexture * (depthTexture + bias)]. It accepts values between 0 and 1, default is 0.25. An amount > 0 of bias makes sure that the blurTexture is not too sharp because of the multiplication with the depthTexture
+        distortion={1} // Amount of distortion based on the distortionMap texture
+        normalMap={normal}
+        debug={0}
+        reflectorOffset={0.2}
+      />
+    </mesh>
   );
 }
 
@@ -97,6 +103,8 @@ export default function App() {
     }
   }, [sound, track])
 
+  const source = <source src="/videos/matrix_compressed.mp4" type='video/mp4' codecs="avc1.42E01E, mp4a.40.2" />;
+
   return (
     <>
       <Canvas shadows camera={{ position: [0, 3, 100], fov: 15 }}>
@@ -110,23 +118,21 @@ export default function App() {
             <VideoText videoElement={videoElement2?.current} video={video} {...store} position={[0, 3.47, -2]} offset={2} text={'01001111'} />
             <Ground start={ready && clicked} />
           </group>
-          {light && <spotLight position={[0, 10, 0]} intensity={5} angle={Math.PI / 9} penumbra={0.5} />}
-          {light && <ambientLight intensity={0.5} />}
+          {light && <spotLight position={[0, 10, 0]} intensity={10} power={1000} angle={Math.PI / 9} penumbra={1} />}
+          {light && <ambientLight intensity={0.2} />}
+          {/* <ambientLight intensity={2} /> */}
           <Intro rotate={rotate} start={ready && clicked} set={setReady} />
         </Suspense>
         <OrbitControls makeDefault minDistance={5} maxDistance={30} maxPolarAngle={Math.PI / 2} />
       </Canvas>
-      <video ref={videoElement} playsInline preload="metadata" loop crossOrigin="anonymous">
-        <source src="/videos/matrix_compressed.mp4" type='video/mp4' codecs="avc1.42E01E, mp4a.40.2" />
-        <source src="/videos/matrix_compressed_ggg.ogv" type='video/ogg' codecs="theora, vorbis" />
+      <video ref={videoElement} webkit-playsinline="true" playsInline preload="auto" loop crossOrigin="anonymous">
+        {source}
       </video>
-      <video ref={videoElement1} playsInline preload="metadata" loop crossOrigin="anonymous">
-        <source src="/videos/matrix_compressed.mp4" type='video/mp4' codecs="avc1.42E01E, mp4a.40.2" />
-        <source src="/videos/matrix_compressed_ggg.ogv" type='video/ogg' codecs="theora, vorbis" />
+      <video ref={videoElement1} webkit-playsinline="true" playsInline preload="auto" loop crossOrigin="anonymous">
+        {source}
       </video>
-      <video ref={videoElement2} playsInline preload="metadata" loop crossOrigin="anonymous">
-        <source src="/videos/matrix_compressed.mp4" type='video/mp4' codecs="avc1.42E01E, mp4a.40.2" />
-        <source src="/videos/matrix_compressed_ggg.ogv" type='video/ogg' codecs="theora, vorbis" />
+      <video ref={videoElement2} webkit-playsinline="true" playsInline preload="auto" loop crossOrigin="anonymous">
+        {source}
       </video>
 
       <Overlay {...store} ref={overlay} />

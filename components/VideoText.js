@@ -1,10 +1,11 @@
 import { Text } from '@react-three/drei';
 import React, { useEffect } from 'react';
-import { DoubleSide, sRGBEncoding } from 'three';
+import { DoubleSide, LinearFilter } from 'three';
 
 function VideoText({ videoElement, video: videoOn, clicked, text, offset, ...props }) {
-  if (videoElement === undefined) return null;
+  // if (videoElement === undefined) return <></>;
   useEffect(() => {
+    
     if (clicked) {
       videoElement.currentTime = offset || 0;
       videoElement.play();
@@ -19,7 +20,7 @@ function VideoText({ videoElement, video: videoOn, clicked, text, offset, ...pro
     <Text font="/fonts/ShareTechMono.ttf" fontSize={2} letterSpacing={-0.1} {...props}>
       {text}
       <meshBasicMaterial toneMapped={false} side={DoubleSide}>
-        <videoTexture attach="map" args={[videoElement]} encoding={sRGBEncoding} />
+        {videoElement && <videoTexture attach="map" args={[videoElement]} />}
       </meshBasicMaterial>
     </Text>
   );
