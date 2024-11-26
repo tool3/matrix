@@ -105,7 +105,7 @@ export default function App() {
           <group position={[0, -1, 0]}>
             <Couch couch={couch} rotation={[0, Math.PI + 0.4, 0]} position={[1.2, 0, 0.6]} scale={[1, 1, 1]} />
             <Phone couch={couch} />
-            <VideoText videoElement={videoElement?.current} video={video} {...store} position={[0, 0.65, -2]}  offset={1} text={'01001110'} />
+            <VideoText videoElement={videoElement?.current} video={video} {...store} position={[0, 0.65, -2]} offset={1} text={'01001110'} />
             <VideoText videoElement={videoElement1?.current} video={video} {...store} position={[0, 2.06, -2]} offset={0} text={'01000101'} />
             <VideoText videoElement={videoElement2?.current} video={video} {...store} position={[0, 3.47, -2]} offset={2} text={'01001111'} />
             <Ground start={ready && clicked} />
@@ -117,13 +117,14 @@ export default function App() {
         <OrbitControls makeDefault minDistance={5} maxDistance={30} maxPolarAngle={Math.PI / 2} />
       </Canvas>
       <video ref={videoElement} playsInline preload="metadata" loop crossOrigin="anonymous">
-        <source src="/videos/matrix_compressed.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+        <source src="/videos/matrix_compressed.mp4" type='video/mp4' codecs="avc1.42E01E, mp4a.40.2" />
+        {/* <source src="/videos/matrix_compressed_ggg.ogv" type='video/ogg' codecs="avc1.42E01E, mp4a.40.2"' /> */}
       </video>
       <video ref={videoElement1} playsInline preload="metadata" loop crossOrigin="anonymous">
-        <source src="/videos/matrix_compressed.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+        <source src="/videos/matrix_compressed.mp4" type='video/mp4' codecs="avc1.42E01E, mp4a.40.2" />
       </video>
       <video ref={videoElement2} playsInline preload="metadata" loop crossOrigin="anonymous">
-        <source src="/videos/matrix_compressed.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+        <source src="/videos/matrix_compressed.mp4" type='video/mp4' codecs="avc1.42E01E, mp4a.40.2" />
       </video>
 
       <Overlay {...store} ref={overlay} />
