@@ -12,19 +12,15 @@ function VideoText({ video: videoOn, clicked, text, offset, ...props }) {
   );
 
   useEffect(() => {
-    (async () => {
       if (clicked) {
         video.setAttribute('playsinline', true);
         video.currentTime = offset || 0;
-        await video.play();
+        video.play();
       }
 
       if (!videoOn) {
         video.pause();
       }
-    })()
-
-
   }, [video, clicked, videoOn]);
   return (
     <Text font="/fonts/ShareTechMono.ttf" fontSize={2} letterSpacing={-0.1} {...props}>
