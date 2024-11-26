@@ -118,13 +118,15 @@ export default function App() {
       </Canvas>
       <video ref={videoElement} playsInline preload="metadata" loop crossOrigin="anonymous">
         <source src="/videos/matrix_compressed.mp4" type='video/mp4' codecs="avc1.42E01E, mp4a.40.2" />
-        {/* <source src="/videos/matrix_compressed_ggg.ogv" type='video/ogg' codecs="avc1.42E01E, mp4a.40.2"' /> */}
+        <source src="/videos/matrix_compressed_ggg.ogv" type='video/ogg' codecs="theora, vorbis" />
       </video>
       <video ref={videoElement1} playsInline preload="metadata" loop crossOrigin="anonymous">
         <source src="/videos/matrix_compressed.mp4" type='video/mp4' codecs="avc1.42E01E, mp4a.40.2" />
+        <source src="/videos/matrix_compressed_ggg.ogv" type='video/ogg' codecs="theora, vorbis" />
       </video>
       <video ref={videoElement2} playsInline preload="metadata" loop crossOrigin="anonymous">
         <source src="/videos/matrix_compressed.mp4" type='video/mp4' codecs="avc1.42E01E, mp4a.40.2" />
+        <source src="/videos/matrix_compressed_ggg.ogv" type='video/ogg' codecs="theora, vorbis" />
       </video>
 
       <Overlay {...store} ref={overlay} />
