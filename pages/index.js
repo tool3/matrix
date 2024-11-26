@@ -118,14 +118,13 @@ export default function App() {
             <VideoText videoElement={videoElement2?.current} video={video} {...store} position={[0, 3.47, -2]} offset={2} text={'01001111'} />
             <Ground start={ready && clicked} />
           </group>
-          {light && <spotLight position={[0, 10, 0]} intensity={10} power={1000} angle={Math.PI / 9} penumbra={1} />}
-          {light && <ambientLight intensity={0.2} />}
-          {/* <ambientLight intensity={2} /> */}
+          {light && <spotLight position={[0, 10, 0]} intensity={10} power={10000} angle={Math.PI / 9} penumbra={1} />}
+          <ambientLight intensity={0.5} />
           <Intro rotate={rotate} start={ready && clicked} set={setReady} />
         </Suspense>
         <OrbitControls makeDefault minDistance={5} maxDistance={30} maxPolarAngle={Math.PI / 2} />
       </Canvas>
-      <video ref={videoElement} webkit-playsinline="true" playsInline preload="auto" loop crossOrigin="anonymous">
+      {/* <video ref={videoElement} webkit-playsinline="true" playsInline preload="auto" loop crossOrigin="anonymous">
         {source}
       </video>
       <video ref={videoElement1} webkit-playsinline="true" playsInline preload="auto" loop crossOrigin="anonymous">
@@ -133,7 +132,7 @@ export default function App() {
       </video>
       <video ref={videoElement2} webkit-playsinline="true" playsInline preload="auto" loop crossOrigin="anonymous">
         {source}
-      </video>
+      </video> */}
 
       <Overlay {...store} ref={overlay} />
     </>

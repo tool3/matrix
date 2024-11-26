@@ -1,26 +1,36 @@
 import { Text } from '@react-three/drei';
-import React, { useEffect } from 'react';
-import { DoubleSide, LinearFilter } from 'three';
+import React, { useEffect, useState } from 'react';
+import { AlphaFormat, DoubleSide, RGBAFormat, sRGBEncoding } from 'three';
 
 function VideoText({ videoElement, video: videoOn, clicked, text, offset, ...props }) {
-  // if (videoElement === undefined) return <></>;
+  const [video] = useState(
+    Object.assign(document.createElement('video'), {
+      src: '/videos/matrix_compressed.mp4',
+      crossOrigin: 'Anonymous',
+      loop: true,
+    })
+  );
+
   useEffect(() => {
-    
-    if (clicked) {
-      videoElement.currentTime = offset || 0;
-      videoElement.play();
-    }
+    (async () => {
+      if (clicked) {
+        video.setAttribute('playsinline', true);
+        video.currentTime = offset || 0;
+        await video.play();
+      }
 
-    if (!videoOn) {
-      videoElement.pause();
-    }
-  }, [videoElement, clicked, videoOn]);
+      if (!videoOn) {
+        video.pause();
+      }
+    })()
 
+
+  }, [video, clicked, videoOn]);
   return (
     <Text font="/fonts/ShareTechMono.ttf" fontSize={2} letterSpacing={-0.1} {...props}>
       {text}
       <meshBasicMaterial toneMapped={false} side={DoubleSide}>
-        {videoElement && <videoTexture attach="map" args={[videoElement]} />}
+        <videoTexture attach="map" args={[video]} />
       </meshBasicMaterial>
     </Text>
   );
