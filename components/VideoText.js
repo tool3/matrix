@@ -1,11 +1,11 @@
 import { Text } from '@react-three/drei';
 import React, { useEffect, useState } from 'react';
-import { AlphaFormat, DoubleSide, RGBAFormat, sRGBEncoding } from 'three';
+import { DoubleSide } from 'three';
 
-function VideoText({ videoElement, video: videoOn, clicked, text, offset, ...props }) {
+function VideoText({ video: videoOn, clicked, text, offset, ...props }) {
   const [video] = useState(
     Object.assign(document.createElement('video'), {
-      src: '/videos/matrix_compressed.mp4',
+      src: '/videos/dest.mp4',
       crossOrigin: 'Anonymous',
       loop: true,
     })
