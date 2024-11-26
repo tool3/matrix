@@ -31,11 +31,12 @@ const Overlay = forwardRef((store, ref) => {
     setCouch,
     rotate,
     setRotate,
-    video,
-    setVideo,
+    videoOn,
+    setVideoOn,
     sound,
     setSound,
   } = store
+
   return (
     <div className='wrapper' ref={ref}>
       <div className={`fullscreen ${ready ? 'ready' : 'notready'} ${clicked && 'clicked'}`}>
@@ -64,7 +65,7 @@ const Overlay = forwardRef((store, ref) => {
           </div>
           <div className="row">
             video
-            <Slider isOn={video} toggleSwitch={setVideo} />
+            <Slider isOn={videoOn} toggleSwitch={setVideoOn} />
           </div>
           <div className="row">
             sound

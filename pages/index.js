@@ -35,17 +35,16 @@ function Ground({ start }) {
   ]);
 
   return (
-    <mesh castShadow receiveShadow rotation={[-Math.PI / 2, 0, -Math.PI / 2]}>
+    <mesh rotation={[-Math.PI / 2, 0, -Math.PI / 2]}>
       <planeGeometry args={[50, 50]} />
       <MeshReflectorMaterial
-        blur={[400, 100]}
+        blur={[600, 100]}
         resolution={720}
         args={[50, 50]}
-        mirror={1}
+        mirror={.9}
         metalness={0.9}
         normalScale={[1, 1]}
         mixBlur={6}
-        side={DoubleSide}
         roughnessMap={floor}
         mixStrength={2.0}
         mixContrast={1}
@@ -56,7 +55,7 @@ function Ground({ start }) {
         distortion={1}
         normalMap={normal}
         debug={0}
-        reflectorOffset={0}
+        reflectorOffset={0.2}
       />
     </mesh>
   );
@@ -72,7 +71,7 @@ export default function App() {
   const [light, setLight] = useState(false);
   const [couch, setCouch] = useState(false);
   const [rotate, setRotate] = useState(false);
-  const [video, setVideo] = useState(true);
+  const [videoOn, setVideoOn] = useState(true);
   const [sound, setSound] = useState(false);
 
   const store = {
@@ -86,8 +85,8 @@ export default function App() {
     setCouch,
     rotate,
     setRotate,
-    video,
-    setVideo,
+    videoOn,
+    setVideoOn,
     sound,
     setSound,
   }
@@ -100,7 +99,22 @@ export default function App() {
     }
   }, [sound, track])
 
-  const source = <source src="/videos/matrix_compressed.mp4" type='video/mp4' codecs="avc1.42E01E, mp4a.40.2" />;
+  const videoProps = {
+    src: '/videos/dest.mp4',
+    crossOrigin: 'anonymous',
+    loop: true,
+    preload: 'auto',
+  };
+
+  const [video, setVideo] = useState(null);
+  const [video1, setVideo1] = useState(null);
+  const [video2, setVideo2] = useState(null);
+
+  useEffect(() => {
+    setVideo(Object.assign(document?.createElement('video'), videoProps))
+    setVideo1(Object.assign(document?.createElement('video'), videoProps))
+    setVideo2(Object.assign(document?.createElement('video'), videoProps))
+  }, [])
 
   return (
     <>
@@ -110,9 +124,9 @@ export default function App() {
           <group position={[0, -1, 0]}>
             <Couch couch={couch} rotation={[0, Math.PI + 0.4, 0]} position={[1.2, 0, 0.6]} scale={[1, 1, 1]} />
             <Phone couch={couch} />
-            <VideoText video={video} {...store} position={[0, 0.65, -2]} offset={1} text={'01001110'} />
-            <VideoText video={video} {...store} position={[0, 2.06, -2]} offset={0} text={'01000101'} />
-            <VideoText video={video} {...store} position={[0, 3.47, -2]} offset={2} text={'01001111'} />
+            <VideoText video={video} videoOn={videoOn} {...store} position={[0, 0.65, -2]} offset={1} text={'01001110'} />
+            <VideoText video={video1} videoOn={videoOn} {...store} position={[0, 2.06, -2]} offset={0} text={'01000101'} />
+            <VideoText video={video2} videoOn={videoOn} {...store} position={[0, 3.47, -2]} offset={2} text={'01001111'} />
             <Ground start={ready && clicked} />
           </group>
           {light && <spotLight position={[0, 10, 0]} intensity={10} power={10000} angle={Math.PI / 9} penumbra={1} />}
@@ -121,15 +135,6 @@ export default function App() {
         </Suspense>
         <OrbitControls makeDefault minDistance={5} maxDistance={30} maxPolarAngle={Math.PI / 2} />
       </Canvas>
-      {/* <video ref={videoElement} webkit-playsinline="true" playsInline preload="auto" loop crossOrigin="anonymous">
-        {source}
-      </video>
-      <video ref={videoElement1} webkit-playsinline="true" playsInline preload="auto" loop crossOrigin="anonymous">
-        {source}
-      </video>
-      <video ref={videoElement2} webkit-playsinline="true" playsInline preload="auto" loop crossOrigin="anonymous">
-        {source}
-      </video> */}
 
       <Overlay {...store} ref={overlay} />
     </>
