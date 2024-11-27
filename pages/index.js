@@ -1,4 +1,4 @@
-import { MeshReflectorMaterial, OrbitControls, Reflector, useProgress, useTexture } from '@react-three/drei';
+import { MeshReflectorMaterial, OrbitControls, Reflector, useHelper, useProgress, useTexture } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import gsap from 'gsap';
 import { Howl } from 'howler';
@@ -6,22 +6,23 @@ import React, { Suspense, useEffect, useRef, useState } from 'react';
 import Couch from '../components/Couch';
 import Overlay from '../components/Overlay';
 import Phone from '../components/Phone';
-import secondary from '../components/sounds/secondary_final_cut.mp3';
-import main from '../components/sounds/main_final_cut.mp3';
+import secondary from '../components/sounds/secondary_wav.wav';
+import main from '../components/sounds/main_wav.wav';
 import VideoText from '../components/VideoText';
 import Ground from '../components/Ground';
+import { DirectionalLightHelper, Object3D, SpotLightHelper, Vector3 } from 'three';
 
 const tracks = {
   main: new Howl({
-    src: [main],
-    format: ['mp3'],
+    src: [secondary],
+    format: ['wav'],
     preload: true,
     loop: true,
     volume: .2,
   }),
   secondary: new Howl({
-    src: [secondary],
-    format: ['mp3'],
+    src: [main],
+    format: ['wav'],
     preload: true,
     loop: true,
     volume: .2,
@@ -87,7 +88,7 @@ export default function App() {
     setVideo1(Object.assign(document?.createElement('video'), videoProps))
     setVideo2(Object.assign(document?.createElement('video'), videoProps))
   }, [])
-
+  
   return (
     <>
       <Canvas shadows camera={{ position: [0, 3, 100], fov: 15 }}>
@@ -102,7 +103,8 @@ export default function App() {
             <Ground start={ready && clicked} />
           </group>
           {light && <spotLight position={[0, 10, 0]} intensity={10} power={10000} angle={Math.PI / 9} penumbra={1} />}
-          <ambientLight intensity={0.5} />
+          {/* <directionalLight position={[0, 10, 5]} intensity={10} power={100} />; */}
+          <ambientLight intensity={1} />
           <Intro rotate={rotate} start={ready && clicked} set={setReady} />
         </Suspense>
         <OrbitControls makeDefault minDistance={5} maxDistance={30} maxPolarAngle={Math.PI / 2} />
@@ -115,7 +117,8 @@ export default function App() {
 
 function Intro({ start, rotate }) {
   const { camera } = useThree();
-
+  const dir = useRef();
+  useHelper(dir, DirectionalLightHelper);
   useEffect(() => {
     if (start) {
       gsap.from(camera.position, { z: 100 });
@@ -130,7 +133,7 @@ function Intro({ start, rotate }) {
     } else {
       controls.autoRotate = false;
     }
-  })
+  });
 
-  return null;
+  return <directionalLight position={[0, 10, 5]} intensity={10} power={100} />;
 }

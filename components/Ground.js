@@ -17,7 +17,7 @@ export default function Ground() {
                 blur={[600, 100]}
                 resolution={1024}
                 args={[50, 50]}
-                mirror={.9}
+                mirror={1}
                 metalness={0.9}
                 normalScale={[1, 1]}
                 mixBlur={6}
@@ -27,11 +27,11 @@ export default function Ground() {
                 depthScale={0.2}
                 minDepthThreshold={0.2}
                 maxDepthThreshold={1}
-                depthToBlurRatioBias={0}
-                distortion={0}
+                depthToBlurRatioBias={0.25}
+                distortion={1}
                 normalMap={normal}
                 debug={0}
-                reflectorOffset={0}
+                reflectorOffset={0.2}
             />
         </mesh>
     );
