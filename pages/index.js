@@ -6,8 +6,8 @@ import React, { Suspense, useEffect, useRef, useState } from 'react';
 import Couch from '../components/Couch';
 import Overlay from '../components/Overlay';
 import Phone from '../components/Phone';
-import main from '../components/sounds/main.mp3';
-import secondary from '../components/sounds/sec_5.mp3';
+import secondary from '../components/sounds/main.mp3';
+import main from '../components/sounds/sec_5.mp3';
 import VideoText from '../components/VideoText';
 
 const tracks = {
