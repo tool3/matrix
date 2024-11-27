@@ -63,7 +63,6 @@ function Ground() {
 export default function App() {
   const [clicked, setClicked] = useState(false);
   const [ready, setReady] = useState(false);
-  const [progress, setProgress] = useState(0);
 
   const [track, setTrack] = useState('main');
   const [light, setLight] = useState(false);
@@ -90,7 +89,6 @@ export default function App() {
     sound,
     setSound,
     progress,
-    setProgress,
     track,
     setTrack
   }

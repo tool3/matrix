@@ -63,7 +63,6 @@ const Overlay = forwardRef((store, ref) => {
             (
               <div className="scrambled">
                 <Scramble />
-                {progress}%
               </div>
             )
             :
