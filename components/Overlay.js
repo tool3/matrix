@@ -40,7 +40,6 @@ const Overlay = forwardRef((store, ref) => {
     clicked,
     setClicked,
     ready,
-    progress,
     light,
     setLight,
     couch,

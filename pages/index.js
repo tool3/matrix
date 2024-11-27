@@ -88,7 +88,6 @@ export default function App() {
     setVideoOn,
     sound,
     setSound,
-    progress,
     track,
     setTrack
   }
@@ -127,7 +126,7 @@ export default function App() {
         <color attach="background" args={['black']} />
         <Suspense fallback={null}>
           <group position={[0, -1, 0]}>
-            <Couch setProgress={setProgress} setReady={setReady} couch={couch} rotation={[0, Math.PI + 0.4, 0]} position={[1.2, 0, 0.6]} scale={[1, 1, 1]} />
+            <Couch setReady={setReady} couch={couch} rotation={[0, Math.PI + 0.4, 0]} position={[1.2, 0, 0.6]} scale={[1, 1, 1]} />
             <Phone couch={couch} />
             <VideoText video={video} videoOn={videoOn} {...store} position={[0, 0.65, -2]} offset={1} text={'01001110'} />
             <VideoText video={video1} videoOn={videoOn} {...store} position={[0, 2.06, -2]} offset={0} text={'01000101'} />
