@@ -1,8 +1,19 @@
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import { useGLTF, useProgress } from '@react-three/drei';
+import React, { useEffect } from 'react';
 
-export default function Couch({ couch, ...props }) {
-  const { nodes, materials } = useGLTF('/models/couch_opt.glb')
+export default function Couch({ ...props }) {
+  const { couch, setProgress, setReady } = props;
+  const { nodes, materials } = useGLTF('/models/couch_opt.glb');
+  const { progress } = useProgress();
+
+  useEffect(() => {
+    if (progress === 100) {
+      setReady(true);
+    } else {
+      setProgress(progress);
+    }
+  }, [progress]);
+
   return (
     <group visible={couch} {...props} dispose={null}>
       <mesh

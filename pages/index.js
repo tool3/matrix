@@ -1,4 +1,4 @@
-import { MeshReflectorMaterial, OrbitControls, Reflector, useTexture } from '@react-three/drei';
+import { MeshReflectorMaterial, OrbitControls, Reflector, useProgress, useTexture } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import gsap from 'gsap';
 import { Howl } from 'howler';
@@ -9,7 +9,6 @@ import Phone from '../components/Phone';
 import main from '../components/sounds/3.mp3';
 import secondary from '../components/sounds/mtrx_loop_secondary.mp3';
 import VideoText from '../components/VideoText';
-import { BackSide, DoubleSide } from 'three';
 
 const tracks = {
   main: new Howl({
@@ -28,7 +27,7 @@ const tracks = {
   }),
 }
 
-function Ground({ start }) {
+function Ground() {
   const [floor, normal] = useTexture([
     '/textures/SurfaceImperfections003_1K_var1.jpg',
     '/textures/SurfaceImperfections003_1K_Normal.jpg'
@@ -64,8 +63,7 @@ function Ground({ start }) {
 export default function App() {
   const [clicked, setClicked] = useState(false);
   const [ready, setReady] = useState(false);
-
-  const overlay = useRef();
+  const [progress, setProgress] = useState(0);
 
   const [track, setTrack] = useState('main');
   const [light, setLight] = useState(false);
@@ -73,6 +71,8 @@ export default function App() {
   const [rotate, setRotate] = useState(false);
   const [videoOn, setVideoOn] = useState(true);
   const [sound, setSound] = useState(false);
+
+  const overlay = useRef();
 
   const store = {
     clicked,
@@ -89,13 +89,20 @@ export default function App() {
     setVideoOn,
     sound,
     setSound,
+    progress,
+    setProgress,
+    track,
+    setTrack
   }
 
   useEffect(() => {
     if (sound) {
+      tracks.main.stop();
+      tracks.secondary.stop();
       tracks[track].play();
     } else {
-      tracks[track].stop();
+      tracks.main.stop();
+      tracks.secondary.stop();
     }
   }, [sound, track])
 
@@ -122,7 +129,7 @@ export default function App() {
         <color attach="background" args={['black']} />
         <Suspense fallback={null}>
           <group position={[0, -1, 0]}>
-            <Couch couch={couch} rotation={[0, Math.PI + 0.4, 0]} position={[1.2, 0, 0.6]} scale={[1, 1, 1]} />
+            <Couch setProgress={setProgress} setReady={setReady} couch={couch} rotation={[0, Math.PI + 0.4, 0]} position={[1.2, 0, 0.6]} scale={[1, 1, 1]} />
             <Phone couch={couch} />
             <VideoText video={video} videoOn={videoOn} {...store} position={[0, 0.65, -2]} offset={1} text={'01001110'} />
             <VideoText video={video1} videoOn={videoOn} {...store} position={[0, 2.06, -2]} offset={0} text={'01000101'} />
@@ -141,10 +148,7 @@ export default function App() {
   );
 }
 
-function Intro({ start, set, rotate }) {
-  useEffect(() => {
-    setTimeout(() => set(true), 500);
-  }, []);
+function Intro({ start, rotate }) {
   const { camera } = useThree();
 
   useEffect(() => {

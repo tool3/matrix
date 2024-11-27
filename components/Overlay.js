@@ -18,13 +18,29 @@ const Slider = ({ isOn, toggleSwitch }) => {
 
 }
 
+const DualSelect = ({ track, setTrack }) => {
+  const spring = {
+    type: "spring",
+    stiffness: 700,
+    damping: 30,
+  };
+
+  const trackToSet = track === 'main' ? 'secondary' : 'main';
+
+  return (
+    <div className="dual-select" data-ison={track === 'secondary'} onClick={() => setTrack(trackToSet)}>
+      <motion.div className="knob" layout transition={spring}>{track === 'main' ? '1' : '2'}</motion.div>
+    </div>
+  )
+}
+
 const Overlay = forwardRef((store, ref) => {
 
   const {
     clicked,
     setClicked,
     ready,
-    setReady,
+    progress,
     light,
     setLight,
     couch,
@@ -35,18 +51,27 @@ const Overlay = forwardRef((store, ref) => {
     setVideoOn,
     sound,
     setSound,
+    track,
+    setTrack
   } = store
 
   return (
     <div className='wrapper' ref={ref}>
       <div className={`fullscreen ${ready ? 'ready' : 'notready'} ${clicked && 'clicked'}`}>
-        <div onClick={() => ready && setClicked(true)}>{!ready ?
-          (
-            <div className="scrambled">
-              <Scramble />
+        <div onClick={() => ready && setClicked(true)}>{
+          !ready ?
+            (
+              <div className="scrambled">
+                <Scramble />
+                {progress}%
+              </div>
+            )
+            :
+            <div className="enter">
+              ENTER
             </div>
-          )
-          : 'click to continue'}</div>
+
+        }</div>
       </div>
       <div className="footer">
         <div className="project">Matrix</div>
@@ -68,7 +93,7 @@ const Overlay = forwardRef((store, ref) => {
             <Slider isOn={videoOn} toggleSwitch={setVideoOn} />
           </div>
           <div className="row">
-            sound
+            <DualSelect track={track} setTrack={setTrack} />
             <Slider isOn={sound} toggleSwitch={setSound} />
           </div>
         </div>

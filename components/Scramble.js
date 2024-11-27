@@ -2,7 +2,7 @@ import { useScramble } from "use-scramble";
 
 const Scramble = () => {
     const { ref } = useScramble({
-        text: "Matrix",
+        text: "MATRIX",
         scramble: 10,
         speed: 0.3,
         step: 0.1

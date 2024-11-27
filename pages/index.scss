@@ -4,7 +4,7 @@
 }
 
 :root {
-  --theme-color: #1A9865;
+  --theme-color: #1a9865;
 }
 
 * {
@@ -172,9 +172,26 @@ body {
   transition: 0.2s ease-in-out;
 }
 
+.dual-select {
+  width: 80px;
+  height: 25px;
+  background-color: var(--theme-color);
+  display: flex;
+  justify-content: flex-start;
+  border-radius: 50px;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.dual-select[data-ison="true"] {
+  justify-content: flex-end;
+  background-color: var(--theme-color);
+}
+
 .switcher[data-ison="true"] {
   justify-content: flex-end;
-  background-color: var(--theme-color)
+  background-color: var(--theme-color);
 }
 
 .handle {
@@ -184,20 +201,37 @@ body {
   border-radius: 40px;
 }
 
+.knob {
+  width: 40px;
+  height: 15px;
+  background-color: white;
+  border-radius: 40px;
+  font-size: 1rem;
+  text-align: center;
+}
+
 .scrambled {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
   text-align: center;
+  color: var(--theme-color);
 
   .scramble {
     text-align: center;
     font-family: "Cyber";
     font-size: 10rem;
-    color: var(--theme-color);
+    width: 42rem;
 
     @media screen and (max-width: 600px) {
       font-size: 5rem;
     }
   }
+}
+
+.enter {
+  font-family: "Cyber";
+  font-size: 10rem;
+  color: var(--theme-color);
 }
