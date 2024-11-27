@@ -6,9 +6,10 @@ import React, { Suspense, useEffect, useRef, useState } from 'react';
 import Couch from '../components/Couch';
 import Overlay from '../components/Overlay';
 import Phone from '../components/Phone';
-import secondary from '../components/sounds/main.mp3';
-import main from '../components/sounds/sec_5.mp3';
+import secondary from '../components/sounds/secondary_final_cut.mp3';
+import main from '../components/sounds/main_final_cut.mp3';
 import VideoText from '../components/VideoText';
+import Ground from '../components/Ground';
 
 const tracks = {
   main: new Howl({
@@ -25,39 +26,6 @@ const tracks = {
     loop: true,
     volume: .2,
   }),
-}
-
-function Ground() {
-  const [floor, normal] = useTexture([
-    '/textures/SurfaceImperfections003_1K_var1.jpg',
-    '/textures/SurfaceImperfections003_1K_Normal.jpg'
-  ]);
-
-  return (
-    <mesh rotation={[-Math.PI / 2, 0, -Math.PI / 2]}>
-      <planeGeometry args={[50, 50]} />
-      <MeshReflectorMaterial
-        blur={[600, 100]}
-        resolution={720}
-        args={[50, 50]}
-        mirror={.9}
-        metalness={0.9}
-        normalScale={[1, 1]}
-        mixBlur={6}
-        roughnessMap={floor}
-        mixStrength={2.0}
-        mixContrast={1}
-        depthScale={0}
-        minDepthThreshold={0.9}
-        maxDepthThreshold={1}
-        depthToBlurRatioBias={0.25}
-        distortion={1}
-        normalMap={normal}
-        debug={0}
-        reflectorOffset={0.2}
-      />
-    </mesh>
-  );
 }
 
 export default function App() {
@@ -128,7 +96,7 @@ export default function App() {
           <group position={[0, -1, 0]}>
             <Couch setReady={setReady} couch={couch} rotation={[0, Math.PI + 0.4, 0]} position={[1.2, 0, 0.6]} scale={[1, 1, 1]} />
             <Phone couch={couch} />
-            <VideoText video={video} videoOn={videoOn} {...store} position={[0, 0.65, -2]} offset={1} text={'01001110'} />
+            <VideoText video={video} videoOn={videoOn} {...store} position={[0, 0.63, -2]} offset={1} text={'01001110'} />
             <VideoText video={video1} videoOn={videoOn} {...store} position={[0, 2.06, -2]} offset={0} text={'01000101'} />
             <VideoText video={video2} videoOn={videoOn} {...store} position={[0, 3.47, -2]} offset={2} text={'01001111'} />
             <Ground start={ready && clicked} />
