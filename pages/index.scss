@@ -1,10 +1,16 @@
 @font-face {
   font-family: "Cyber";
-  src: url("/fonts/Cyber_Alert.otf"); // pattern: /directoryName/file.extension
+  src: url("/fonts/Cyber_Alert.otf");
+}
+
+@font-face {
+  font-family: "PressStart";
+  src: url("/fonts/PressStart.ttf");
 }
 
 :root {
-  --theme-color: #1a9865;
+  // --theme-color: #1a9865;
+  --theme-color: #3DE683;
 }
 
 * {
@@ -51,7 +57,7 @@ body {
   z-index: 2;
 }
 
-.wrapper {
+.overlay {
   border: 1px solid red;
   z-index: 2;
   display: block;
@@ -60,15 +66,30 @@ body {
 .footer {
   position: fixed;
   display: flex;
-  width: 100vw;
+  width: min-content;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  font-family: "Cyber";
-  bottom: 0;
-  padding: 0.5em;
+  font-family: PressStart, ui-monospace, SFMono-Regular, Menlo, "Roboto Mono",
+    monospace;
+  background: url("/image/monitor.jpg");
+  background-position: 50% 50%;
+  background-blend-mode: hard-light;
+  font-size: 10px;
   color: var(--theme-color);
-  font-size: 3em;
+  background-color: black;
+  border-radius: 1rem;
+  top: 0;
+  margin: 0.5rem;
+  padding: 1rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px 0 var(--theme-color);
+
+  .project {
+    font-family: "Cyber";
+    font-size: 3rem;
+    color: var(--theme-color);
+  }
 
   .author {
     display: flex;
@@ -80,7 +101,6 @@ body {
 
   .row {
     display: flex;
-    font-size: 20px;
     justify-content: space-between;
     align-items: center;
     width: 100%;
@@ -91,6 +111,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    width: 100%;
   }
 }
 
@@ -163,7 +184,7 @@ body {
 .switcher {
   width: 50px;
   height: 25px;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: gray;
   display: flex;
   justify-content: flex-start;
   border-radius: 50px;
@@ -173,22 +194,19 @@ body {
 }
 
 .dual-select {
-  width: 80px;
-  height: 25px;
-  background-color: var(--theme-color);
   display: flex;
   justify-content: flex-start;
-  border-radius: 50px;
-  padding: 5px;
   cursor: pointer;
   transition: 0.2s ease-in-out;
-}
+  color: gray;
+  gap: 1rem;
 
-.dual-select[data-ison="true"] {
-  justify-content: flex-end;
-  background-color: var(--theme-color);
+  .select {
+    &.active {
+      color: var(--theme-color);
+    }
+  }
 }
-
 .switcher[data-ison="true"] {
   justify-content: flex-end;
   background-color: var(--theme-color);
@@ -206,7 +224,7 @@ body {
   height: 15px;
   background-color: white;
   border-radius: 40px;
-  font-size: .8rem;
+  font-size: 0.8rem;
   text-align: center;
 }
 

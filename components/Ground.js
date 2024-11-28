@@ -1,4 +1,5 @@
 import { MeshReflectorMaterial, useTexture } from "@react-three/drei";
+import { useRef } from "react";
 import { LinearSRGBColorSpace } from "three";
 
 export default function Ground() {
@@ -9,10 +10,12 @@ export default function Ground() {
 
     floor.colorSpace = LinearSRGBColorSpace;
     normal.colorSpace = LinearSRGBColorSpace;
+
+    const plane = useRef();
     
     return (
         <mesh rotation={[-Math.PI / 2, 0, -Math.PI / 2]}>
-            <planeGeometry position={[0, 0, 0]} args={[50, 50]} />
+            <planeGeometry ref={plane} position={[0, 0, 0]} args={[50, 50]} />
             <MeshReflectorMaterial
                 blur={[600, 100]}
                 resolution={1024}
@@ -21,6 +24,7 @@ export default function Ground() {
                 metalness={0.9}
                 normalScale={[1, 1]}
                 mixBlur={6}
+                clippingPlanes={plane}
                 roughnessMap={floor}
                 mixStrength={2.0}
                 mixContrast={1}
@@ -31,7 +35,7 @@ export default function Ground() {
                 distortion={1}
                 normalMap={normal}
                 debug={0}
-                reflectorOffset={0.2}
+                reflectorOffset={0}
             />
         </mesh>
     );

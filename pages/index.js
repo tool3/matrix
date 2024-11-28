@@ -11,6 +11,7 @@ import main from '../components/sounds/main_wav.wav';
 import VideoText from '../components/VideoText';
 import Ground from '../components/Ground';
 import { DirectionalLightHelper, Object3D, SpotLightHelper, Vector3 } from 'three';
+import { Perf } from 'r3f-perf';
 
 const tracks = {
   main: new Howl({
@@ -88,7 +89,7 @@ export default function App() {
     setVideo1(Object.assign(document?.createElement('video'), videoProps))
     setVideo2(Object.assign(document?.createElement('video'), videoProps))
   }, [])
-  
+
   return (
     <>
       <Canvas shadows camera={{ position: [0, 3, 100], fov: 15 }}>
@@ -103,9 +104,10 @@ export default function App() {
             <Ground start={ready && clicked} />
           </group>
           {light && <spotLight position={[0, 10, 0]} intensity={10} power={10000} angle={Math.PI / 9} penumbra={1} />}
-          {/* <directionalLight position={[0, 10, 5]} intensity={10} power={100} />; */}
-          <ambientLight intensity={1} />
+          {light && <directionalLight position={[0, 10, 5]} intensity={10} power={100} />}
+          <ambientLight intensity={.2} />
           <Intro rotate={rotate} start={ready && clicked} set={setReady} />
+          <Perf />
         </Suspense>
         <OrbitControls makeDefault minDistance={5} maxDistance={30} maxPolarAngle={Math.PI / 2} />
       </Canvas>
@@ -117,8 +119,7 @@ export default function App() {
 
 function Intro({ start, rotate }) {
   const { camera } = useThree();
-  const dir = useRef();
-  useHelper(dir, DirectionalLightHelper);
+
   useEffect(() => {
     if (start) {
       gsap.from(camera.position, { z: 100 });
@@ -135,5 +136,6 @@ function Intro({ start, rotate }) {
     }
   });
 
-  return <directionalLight position={[0, 10, 5]} intensity={10} power={100} />;
+
+  return null;
 }

@@ -19,17 +19,15 @@ const Slider = ({ isOn, toggleSwitch }) => {
 }
 
 const DualSelect = ({ track, setTrack }) => {
-  const spring = {
-    type: "spring",
-    stiffness: 700,
-    damping: 30,
-  };
-
   const trackToSet = track === 'main' ? 'secondary' : 'main';
 
+  const className1 = `select ${track === 'main' ? 'active' : ''}`;
+  const className2 = `select ${track === 'secondary' ? 'active' : ''}`;
+  console.log({ track, className1, className2 });
   return (
-    <div className="dual-select" data-ison={track === 'secondary'} onClick={() => setTrack(trackToSet)}>
-      <motion.div className="knob" layout transition={spring}>{track === 'main' ? '1' : '2'}</motion.div>
+    <div className="dual-select" onClick={() => setTrack(trackToSet)}>
+      <div className={className1}>_01</div>
+      <div className={className2}>_02</div>
     </div>
   )
 }
@@ -55,7 +53,7 @@ const Overlay = forwardRef((store, ref) => {
   } = store
 
   return (
-    <div className='wrapper' ref={ref}>
+    <div className='overlay' ref={ref}>
       <div className={`fullscreen ${ready ? 'ready' : 'notready'} ${clicked && 'clicked'}`}>
         <div onClick={() => ready && setClicked(true)}>{
           !ready ?
